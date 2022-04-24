@@ -1,5 +1,3 @@
-require("dotenv").config();
-
 import { MongoClient } from "mongodb";
 
 async function handler(req, res) {
@@ -26,10 +24,10 @@ async function handler(req, res) {
 
   let client;
 
+  const connectionString = `mongodb+srv://${process.env.mongodb_username}:${process.env.mongodb_password}@${process.env.mongodb_clustername}.led7e.mongodb.net/${process.env.mongodb_database}?retryWrites=true&w=majority`;
+
   try {
-    client = await MongoClient.connect(
-      `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@cluster0.led7e.mongodb.net/my-site?retryWrites=true&w=majority`
-    );
+    client = await MongoClient.connect(connectionString);
   } catch (error) {
     res.status(500).json({ message: "Could not connect to database" });
     return;
